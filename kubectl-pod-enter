@@ -1,0 +1,7 @@
+#!/bin/bash
+
+namespace="$1"
+podPrefix="$2"
+
+podId=$(kubectl get pods --no-headers -n $namespace -o custom-columns=":metadata.name" --field-selector=status.phase=Running | grep $podPrefix | tail -n 1)
+bash -c "kubectl exec -it -n $namespace $podId -- bash"
